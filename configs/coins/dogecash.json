@@ -1,0 +1,67 @@
+{
+    "coin": {
+      "name": "Dogecash",
+      "shortcut": "DOGEC",
+      "label": "DOGEC",
+      "alias": "dogecash"
+    },
+    "ports": {
+      "backend_rpc": 51473,
+      "backend_message_queue": 38344,
+      "blockbook_internal": 9044,
+      "blockbook_public": 9144
+    },
+    "ipc": {
+      "rpc_url_template": "http://127.0.0.1:{{.Ports.BackendRPC}}",
+      "rpc_user": "dogecash",
+      "rpc_pass": "dogecashrpc",
+      "rpc_timeout": 25,
+      "message_queue_binding_template": "tcp://127.0.0.1:{{.Ports.BackendMessageQueue}}"
+    },
+    "backend": {
+      "package_name": "backend-dogecash",
+      "package_revision": "satoshilabs-1",
+      "system_user": "dogecash",
+      "version": "5.5.1",
+      "binary_url": "https://github.com/dogecash/dogecash/releases/download/5.5.1/dogecash-5.5.1-x86_64-linux-gnu.tar.gz",
+      "verification_type": "sha256",
+      "verification_source": "deab49107e8930148e24bb922b3bef6f009e3709d425619ff0044d121d7a02ef",
+      "extract_command": "tar xvf -C backend",
+      "exclude_files": [
+        "dogecash-qt"
+      ],
+      "exec_command_template": "{{.Env.BackendInstallPath}}/{{.Coin.Alias}}/dogecashd -datadir={{.Env.BackendDataPath}}/{{.Coin.Alias}}/backend -conf={{.Env.BackendInstallPath}}/{{.Coin.Alias}}/{{.Coin.Alias}}.conf -pid=/run/{{.Coin.Alias}}/{{.Coin.Alias}}.pid",
+      "logrotate_files_template": "{{.Env.BackendDataPath}}/{{.Coin.Alias}}/backend/*.log",
+      "postinst_script_template": "",
+      "service_type": "forking",
+      "service_additional_params_template": "",
+      "protect_memory": false,
+      "mainnet": true,
+      "server_config_file": "bitcoin_like.conf",
+      "client_config_file": "bitcoin_like_client.conf",
+      "additional_params": {
+        "whitelist": "127.0.0.1"
+      }
+    },
+    "blockbook": {
+      "package_name": "blockbook-dogecash",
+      "system_user": "blockbook-dogecash",
+      "internal_binding_template": ":{{.Ports.BlockbookInternal}}",
+      "public_binding_template": ":{{.Ports.BlockbookPublic}}",
+      "explorer_url": "",
+      "additional_params": "",
+      "block_chain": {
+        "parse": true,
+        "mempool_workers": 8,
+        "mempool_sub_workers": 2,
+        "block_addresses_to_keep": 300,
+        "xpub_magic": 36513075,
+        "slip44": 385,
+        "additional_params": {}
+      }
+    },
+    "meta": {
+      "package_maintainer": "Decenomy",
+      "package_maintainer_email": "dev@decenomy.net"
+    }
+  }
