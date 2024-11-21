@@ -57,6 +57,10 @@ import (
 	"github.com/trezor/blockbook/bchain/coins/vipstarcoin"
 	"github.com/trezor/blockbook/bchain/coins/zec"
 	"github.com/trezor/blockbook/common"
+ 
+  "github.com/NekoSuneVR/blockbook-decenomy/bchain/coins/zenzo"
+  "github.com/NekoSuneVR/blockbook-decenomy/bchain/coins/dogecash"
+  "github.com/NekoSuneVR/blockbook-decenomy/bchain/coins/flits"
 )
 
 type blockChainFactory func(config json.RawMessage, pushHandler func(bchain.NotificationType)) (bchain.BlockChain, error)
@@ -142,6 +146,9 @@ func init() {
 	BlockChainFactories["Polygon Archive"] = polygon.NewPolygonRPC
 	BlockChainFactories["Optimism"] = optimism.NewOptimismRPC
 	BlockChainFactories["Optimism Archive"] = optimism.NewOptimismRPC
+  BlockChainFactories["Flits"] = flits.NewFlitsRPC
+	BlockChainFactories["Zenzo"] = zenzo.NewZenzoRPC
+  BlockChainFactories["Dogecash"] = dogecash.NewDogecashRPC
 }
 
 // NewBlockChain creates bchain.BlockChain and bchain.Mempool for the coin passed by the parameter coin
